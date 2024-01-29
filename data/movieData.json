@@ -2,73 +2,186 @@
   "movies": [
     {
       "title": "The Shawshank Redemption",
-      "year": 1994,
-      "director": "Frank Darabont",
+      "description": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
       "genre": ["Drama"],
-      "rating": 9.3
+      "director": "Frank Darabont",
+      "imageUrl": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg"
     },
     {
       "title": "The Godfather",
-      "year": 1972,
-      "director": "Francis Ford Coppola",
+      "description": "An organized crime dynasty's aging patriarch transfers control of his clandestine empire to his reluctant son.",
       "genre": ["Crime", "Drama"],
-      "rating": 9.2
+      "director": "Francis Ford Coppola",
+      "imageUrl": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/3bhkrj58Vtu7enYsRolD1fZdja1.jpg"
     },
     {
       "title": "The Dark Knight",
-      "year": 2008,
-      "director": "Christopher Nolan",
+      "description": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
       "genre": ["Action", "Crime", "Drama"],
-      "rating": 9.0
+      "director": "Christopher Nolan",
+      "imageUrl": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/qJ2tW6WMUDux911r6m7haRef0WH.jpg"
     },
     {
       "title": "Pulp Fiction",
-      "year": 1994,
-      "director": "Quentin Tarantino",
+      "description": "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
       "genre": ["Crime", "Drama"],
-      "rating": 8.9
+      "director": "Quentin Tarantino",
+      "imageUrl": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg"
     },
     {
       "title": "The Lord of the Rings: The Return of the King",
-      "year": 2003,
-      "director": "Peter Jackson",
+      "description": "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
       "genre": ["Adventure", "Drama", "Fantasy"],
-      "rating": 8.9
+      "director": "Peter Jackson",
+      "imageUrl": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/rCzpDGLbOoPwLjy3OAm5NUPOTrC.jpg"
     },
     {
       "title": "Forrest Gump",
-      "year": 1994,
-      "director": "Robert Zemeckis",
+      "description": "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.",
       "genre": ["Drama", "Romance"],
-      "rating": 8.8
+      "director": "Robert Zemeckis",
+      "imageUrl": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/yE5d3BUhE8hCnkMUJOo1QDoOGNz.jpg"
     },
     {
       "title": "Inception",
-      "year": 2010,
-      "director": "Christopher Nolan",
+      "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
       "genre": ["Action", "Adventure", "Sci-Fi"],
-      "rating": 8.8
+      "director": "Christopher Nolan",
+      "imageUrl": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/s3TBrRGB1iav7gFOCNx3H31MoES.jpg"
     },
     {
       "title": "Fight Club",
-      "year": 1999,
-      "director": "David Fincher",
+      "description": "An insomniac office worker and a devil-may-care soapmaker form an underground fight club that evolves into something much, much more.",
       "genre": ["Drama"],
-      "rating": 8.8
+      "director": "David Fincher",
+      "imageUrl": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/4GxSwcjPzUgbWardWzqpUdxwj3T.jpg"
     },
     {
       "title": "The Matrix",
-      "year": 1999,
-      "director": "Lana Wachowski, Lilly Wachowski",
+      "description": "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
       "genre": ["Action", "Sci-Fi"],
-      "rating": 8.7
+      "director": "Lana Wachowski, Lilly Wachowski",
+      "imageUrl": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/lZpWprJqbIFpEV5uoHfoK0KCnTW.jpg"
     },
     {
       "title": "Goodfellas",
-      "year": 1990,
-      "director": "Martin Scorsese",
+      "description": "The story of Henry Hill and his life in the mob, covering his relationship with his wife Karen Hill and his mob partners Jimmy Conway and Tommy DeVito in the Italian-American crime syndicate.",
       "genre": ["Biography", "Crime", "Drama"],
-      "rating": 8.7
+      "director": "Martin Scorsese",
+      "imageUrl": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/hAPeXBdGDGmXRPj4OZZ0poH65Iu.jpg"
+    }
+  ],
+  "directors": [
+    {
+      "name": "Frank Darabont",
+      "bio": "Frank Darabont is a Hungarian-American film director, screenwriter, and producer. He is best known for directing the films The Shawshank Redemption, The Green Mile, and The Mist.",
+      "birth_year": 1959,
+      "death_year": "alive"
+    },
+    {
+      "name": "Francis Ford Coppola",
+      "bio": "Francis Ford Coppola is an American film director, producer, and screenwriter. He is widely regarded as one of the greatest filmmakers of all time. He is best known for directing the films The Godfather trilogy, Apocalypse Now, and The Conversation.",
+      "birth_year": 1939,
+      "death_year": "alive"
+    },
+    {
+      "name": "Christopher Nolan",
+      "bio": "Christopher Nolan is a British-American film director, screenwriter, and producer. He is known for his cerebral, often nonlinear storytelling and his reliance on practical effects. He is best known for directing the films The Dark Knight trilogy, Inception, and Interstellar.",
+      "birth_year": 1970,
+      "death_year": "alive"
+    },
+    {
+      "name": "Quentin Tarantino",
+      "bio": "Quentin Tarantino is an American film director, screenwriter, producer, and actor. He is known for his nonlinear storytelling, stylized violence, and eclectic film references. He is best known for directing the films Pulp Fiction, Reservoir Dogs, and Kill Bill.",
+      "birth_year": 1963,
+      "death_year": "alive"
+    },
+    {
+      "name": "Peter Jackson",
+      "bio": "Peter Jackson is a New Zealand film director, producer, and screenwriter. He is best known for directing the films The Lord of the Rings trilogy, King Kong, and The Hobbit trilogy.",
+      "birth_year": 1961,
+      "death_year": "alive"
+    },
+    {
+      "name": "Robert Zemeckis",
+      "bio": "Robert Zemeckis is an American film director, producer, and screenwriter. He is known for his groundbreaking use of visual effects and innovative storytelling techniques. He is best known for directing the films Forrest Gump, Back to the Future trilogy, and Cast Away.",
+      "birth_year": 1952,
+      "death_year": "alive"
+    },
+    {
+      "name": "David Fincher",
+      "bio": "David Fincher is an American film director and producer. He is known for his dark and stylish thrillers, which often explore themes of obsession, alienation, and identity. He is best known for directing the films Fight Club, Seven, and The Social Network.",
+      "birth_year": 1962,
+      "death_year": "alive"
+    },
+    {
+      "name": "Lana Wachowski, Lilly Wachowski",
+      "bio": "Lana Wachowski and Lilly Wachowski are American film directors, screenwriters, and producers. They are best known for co-directing the films The Matrix trilogy, V for Vendetta, and Cloud Atlas.",
+      "birth_year": 1965,
+      "death_year": "alive"
+    },
+    {
+      "name": "Martin Scorsese",
+      "bio": "Martin Scorsese is an American film director, producer, screenwriter, and actor. He is widely regarded as one of the greatest filmmakers in cinema history. He is best known for directing the films Goodfellas, Taxi Driver, and The Irishman.",
+      "birth_year": 1942,
+      "death_year": "alive"
+    }
+  ],
+  "genres": [
+    {
+      "name": "Drama",
+      "description": "Drama is a category of narrative fiction intended to be more serious than humorous in tone, focusing on in-depth development of realistic characters who must deal with realistic emotional struggles."
+    },
+    {
+      "name": "Crime",
+      "description": "Crime fiction is a genre that fictionalizes crimes, their detection, criminals, and their motives."
+    },
+    {
+      "name": "Action",
+      "description": "Action films are a film genre where action sequences, such as fighting, stunts, car chases or explosions, take precedence over elements like character development or complex plots."
+    },
+    {
+      "name": "Adventure",
+      "description": "Adventure films are a genre of film that typically use their action scenes to display and explore exotic locations in an energetic way."
+    },
+    {
+      "name": "Fantasy",
+      "description": "Fantasy is a genre of speculative fiction set in a fictional universe, often inspired by mythology and folklore."
+    },
+    {
+      "name": "Romance",
+      "description": "Romance films or romance movies are romantic love stories recorded in visual media for broadcast in theaters and on TV that focus on passion, emotion, and the affectionate romantic involvement of the main characters and the journey that their love takes them through dating, courtship or marriage."
+    },
+    {
+      "name": "Sci-Fi",
+      "description": "Science fiction (often shortened to sci-fi or SF) is a genre of speculative fiction that typically deals with imaginative and futuristic concepts such as advanced science and technology, space exploration, time travel, parallel universes, and extraterrestrial life."
+    },
+    {
+      "name": "Biography",
+      "description": "A biography, or simply bio, is a detailed description of a person's life. It involves more than just the basic facts like education, work, relationships, and death; it portrays a person's experience of these life events."
+    }
+  ],
+  "users": [
+    {
+      "userId": "1a2b3c4d5e",
+      "username": "user1",
+      "password": "password1",
+      "favoritedMovies": ["The Shawshank Redemption", "Pulp Fiction"]
+    },
+    {
+      "userId": "2b3c4d5e6f",
+      "username": "user2",
+      "password": "password2",
+      "favoritedMovies": ["The Godfather", "The Dark Knight"]
+    },
+    {
+      "userId": "3c4d5e6f7g",
+      "username": "user3",
+      "password": "password3",
+      "favoritedMovies": [
+        "The Lord of the Rings: The Return of the King",
+        "Inception"
+      ]
     }
   ]
 }

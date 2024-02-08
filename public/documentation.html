@@ -15,6 +15,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/lux/bootstrap.min.css"
     />
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/styles.css" />
   </head>
   <body class="body-padding">
@@ -56,97 +57,305 @@
     <!-- Content -->
     <div class="container-fluid col-lg-10 col-xl-8 col-xxl-7">
       <h1 class="display-3">Documentation</h1>
-      <h4>Developed by: David Schindler</h4>
-      <p class="mb-5">January 2024</p>
+      <h6>Developed by: David Schindler</h6>
+      <h6 class="mb-3">January 2024</h6>
 
-      <p class="">
-        This web application will provide users with access to information about
-        different movies, directors, and genres. Users will be able to sign up,
-        update their personal information, and create a list of their favorite
-        movies
+      <p class="lead">
+        This web application provides users with access to information about a
+        variety of movies, directors, and genres. <br />
+        Users will be able to sign up, update their personal information and
+        create a list of their favorite movies.
       </p>
 
-      <h1>API Endpoint Documentation</h1>
-
+      <!-- Schemas-->
+      <h3 class="mt-5">Movie Schema</h3>
       <div class="table-responsive">
-        <table class="table">
+        <table class="table table-striped">
           <thead>
             <tr>
-              <th class="col-sm-4">Operation</th>
-              <th class="col-sm-2">Request</th>
+              <th class="col-4">Field</th>
+              <th class="col-4">Data type</th>
+              <th class="col-4">Required</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr>
+              <td class="col-4">actors</td>
+              <td class="col-4">String</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">awards</td>
+              <td class="col-4">String</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">country</td>
+              <td class="col-4">String</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">description</td>
+              <td class="col-4">String</td>
+              <td class="col-4">Yes</td>
+            </tr>
+            <tr>
+              <td class="col-4">director</td>
+              <td class="col-4">Object</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">
+                genres<br />
+                <span class="fs-6 ms-3">name, description</span>
+              </td>
+              <td class="col-4">
+                Array of Objects<br />
+                <span class="fs-6 ms-3">String, String</span>
+              </td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">images</td>
+              <td class="col-4">Array of Strings</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">imdbID</td>
+              <td class="col-4">String</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">imdbRating</td>
+              <td class="col-4">String</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">imdbVotes</td>
+              <td class="col-4">String</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">language</td>
+              <td class="col-4">String</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">metascore</td>
+              <td class="col-4">String</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">poster</td>
+              <td class="col-4">String</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">rated</td>
+              <td class="col-4">String</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">released</td>
+              <td class="col-4">String</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">runtime</td>
+              <td class="col-4">String</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">title</td>
+              <td class="col-4">String</td>
+              <td class="col-4">Yes</td>
+            </tr>
+            <tr>
+              <td class="col-4">type</td>
+              <td class="col-4">String</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">writer</td>
+              <td class="col-4">String</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">year</td>
+              <td class="col-4">Date</td>
+              <td class="col-4">No</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="mt-5">User Schema</h3>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th class="col-4">Field</th>
+              <th class="col-4">Type</th>
+              <th class="col-4">Required</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr>
+              <td class="col-4">birthday</td>
+              <td class="col-4">Date</td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">
+                email<br />
+                <span class="fs-6 ms-3"
+                  >"email" is the unique id, the username of the account</span
+                >
+              </td>
+              <td class="col-4">String</td>
+              <td class="col-4">Yes</td>
+            </tr>
+            <tr>
+              <td class="col-4">favoriteMovies</td>
+              <td class="col-4">
+                Array of ObjectIds<br />
+                <span class="fs-6 ms-3">
+                  References to documents of movie collection
+                </span>
+              </td>
+              <td class="col-4">No</td>
+            </tr>
+            <tr>
+              <td class="col-4">firstname</td>
+              <td class="col-4">String</td>
+              <td class="col-4">Yes</td>
+            </tr>
+            <tr>
+              <td class="col-4">lastname</td>
+              <td class="col-4">String</td>
+              <td class="col-4">Yes</td>
+            </tr>
+            <tr>
+              <td class="col-4">password</td>
+              <td class="col-4">String</td>
+              <td class="col-4">Yes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- -->
+      <!-- API Endpoints -->
+      <h3 class="mt-5">API endpoints</h3>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th class="col-sm-3">Operation</th>
+              <th class="col-sm-3">Request</th>
               <th class="col-sm-3">URL</th>
               <th class="col-sm-3">Response</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="table-group-divider">
             <tr>
-              <td>Return a list of all movies</td>
+              <td>List of all movies</td>
               <td>GET</td>
               <td>/movies</td>
-              <td>JSON array of all movies with their details</td>
+              <td>JSON array of all movies including all details</td>
             </tr>
             <tr>
-              <td>Return all data about a single movie by title</td>
+              <td>All data of a single movie by title</td>
               <td>GET</td>
               <td>/movies/:title</td>
               <td>JSON object containing details of the specified movie</td>
             </tr>
             <tr>
-              <td>Return description of a genre by name</td>
+              <td>Description of a genre by name</td>
               <td>GET</td>
               <td>/genres/:name</td>
-              <td>JSON object containing description of the specified genre</td>
+              <td>JSON object of specified genre</td>
             </tr>
             <tr>
-              <td>Return data about a director by name</td>
+              <td>All data of a director by name</td>
               <td>GET</td>
-              <td>/directors/:name</td>
-              <td>
-                JSON object containing bio, birth year and death year of the
-                specified director
-              </td>
+              <td>/director/:name</td>
+              <td>JSON object of directors data</td>
             </tr>
             <tr>
-              <td>Allow new users to register</td>
-              <td>POST</td>
+              <td>Register a new user</td>
+              <td>
+                POST<br />
+                <span class="fs-6">
+                  Request body<br />
+                  <!-- prettier-ignore -->
+                  <pre class="mb-1" id="json1"></pre>
+                </span>
+              </td>
               <td>/register</td>
-              <td>JSON object confirming a successfull registration</td>
+              <td>JSON object of new user</td>
             </tr>
             <tr>
-              <td>Allow users to update their user info</td>
-              <td>PUT</td>
-              <td>/users/:userId</td>
-              <td>JSON object confirming the successfull update</td>
-            </tr>
-            <tr>
-              <td>Allow users to add a movie to favorites</td>
-              <td>PUT</td>
-              <td>/users/:userId/favorites</td>
-              <td>Text confirmation of the movie being added to favorites</td>
-            </tr>
-            <tr>
-              <td>Allow users to remove a movie from favorites</td>
-              <td>DELETE</td>
-              <td>/users/:userId/favorites/:movieId</td>
+              <td>Update data of existing user</td>
               <td>
-                Text confirmation of the movie being removed from favorites
+                PUT<br />
+                <span class="fs-6">
+                  Request body<br />
+                  <!-- prettier-ignore -->
+                  <pre class="mb-1" id="json2"></pre>
+                  <!-- format json -->
+                </span>
+              </td>
+              <td>/users/:email</td>
+              <td>JSON object of updated user</td>
+            </tr>
+            <tr>
+              <td>
+                Add movie to a users favorite movies by user email and movieId
+              </td>
+              <td>POST</td>
+              <td>/users/:email/favoriteMovies/:movieId</td>
+              <td>JSON object of updated user</td>
+            </tr>
+            <tr>
+              <td>Delete favorite movie of user by user email and movieId</td>
+              <td>DELETE</td>
+              <td>/users/:email/favoriteMovies/:movieId</td>
+              <td>
+                Text confirmation that the movie was removed from favorites
               </td>
             </tr>
             <tr>
-              <td>Allow existing users to deregister</td>
+              <td>Delete users the account by email</td>
               <td>DELETE</td>
-              <td>/users/:userId</td>
-              <td>Text confirmation of the user being deregistered</td>
+              <td>/users/:email</td>
+              <td>Text confirmation that the account was deleted</td>
             </tr>
           </tbody>
         </table>
       </div>
+      <!-- -->
     </div>
-
+    <!-- bootstrap -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
+    <!-- format json -->
+    <script>
+      const data = {
+        firstname: 'John',
+        lastname: 'Doe',
+        password: 'password',
+        email: 'john.doe@example.com',
+        birthday: '1990-12-24',
+      };
+      // 👉 convert JSON data to string with tab size=2
+      const dataString = JSON.stringify(data, null, 2);
+
+      // display data in pre tag
+      document.getElementById('json1').innerHTML = dataString;
+      document.getElementById('json2').innerHTML = dataString;
+    </script>
   </body>
 </html>

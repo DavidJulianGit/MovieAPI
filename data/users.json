@@ -1,0 +1,42 @@
+[
+    {
+        "firstname": "John",
+        "lastname": "Doe",
+        "password": "password1",
+        "email": "john@example.com",
+        "birthday": new Date("1985-02-19"),
+        "favoriteMovies": []
+    },
+    {
+        "firstname": "Alice",
+        "lastname": "Smith",
+        "password": "password2",
+        "email": "alice@example.com",
+        "birthday": new Date("1990-05-10"),
+        "favoriteMovies": []
+    },
+    {
+        "firstname": "Bob",
+        "lastname": "Johnson",
+        "password": "password3",
+        "email": "bob@example.com",
+        "birthday": new Date("1980-12-15"),
+        "favoriteMovies": []
+    },
+    {
+        "firstname": "Emily",
+        "lastname": "Brown",
+        "password": "password4",
+        "email": "emily@example.com",
+        "birthday": new Date("1992-08-25"),
+        "favoriteMovies": []
+    },
+    {
+        "firstname": "Michael",
+        "lastname": "Wilson",
+        "password": "password5",
+        "email": "michael@example.com",
+        "birthday": new Date("1976-04-03"),
+        "favoriteMovies": []
+    }
+]

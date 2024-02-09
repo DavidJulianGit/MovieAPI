@@ -110,7 +110,7 @@ app.get('/genres/:name/', async (req, res) => {
  * @param {import('express').Request} req - The request object.
  * @param {import('express').Response} res - The response object.
  */
-app.get('/director/:name', async (req, res) => {
+app.get('/directors/:name', async (req, res) => {
   await Movies.findOne({ 'director.name': req.params.name })
     .then((movie) => {
       res.status(201).json(movie.director);
@@ -126,7 +126,7 @@ app.get('/director/:name', async (req, res) => {
  * @param {import('express').Request} req - The request object.
  * @param {import('express').Response} res - The response object.
  */
-app.post('/register', async (req, res) => {
+app.post('/users', async (req, res) => {
   await Users.findOne({ email: req.body.email })
     .then((user) => {
       // if user already exists, return
@@ -194,11 +194,11 @@ app.patch('/users/:email', async (req, res) => {
  * @param {import('express').Request} req - The request object.
  * @param {import('express').Response} res - The response object.
  */
-app.post('/users/:email/favoriteMovies/:MovieID', async (req, res) => {
+app.post('/users/:email/favoriteMovies/:movieId', async (req, res) => {
   await Users.findOneAndUpdate(
     { email: req.params.email },
     {
-      $push: { favoriteMovies: req.params.MovieID },
+      $push: { favoriteMovies: req.params.movieId },
     },
     { new: true }, // This line makes sure that the updated document is returned
   )
@@ -216,11 +216,11 @@ app.post('/users/:email/favoriteMovies/:MovieID', async (req, res) => {
  * @param {import('express').Request} req - The request object.
  * @param {import('express').Response} res - The response object.
  */
-app.delete('/users/:email/favoriteMovies/:MovieID', async (req, res) => {
+app.delete('/users/:email/favoriteMovies/:movieId', async (req, res) => {
   await Users.findOneAndUpdate(
     { email: req.params.email },
     {
-      $pull: { favoriteMovies: req.params.MovieID },
+      $pull: { favoriteMovies: req.params.movieId },
     },
     { new: true }, // This line makes sure that the updated document is returned
   )

@@ -10,7 +10,7 @@ const movieSchema = mongoose.Schema({
   rated: String,
   released: String,
   runtime: String,
-  genre: {
+  genres: {
     type: Object,
     required: true,
     name: { type: String },
@@ -42,7 +42,7 @@ const userSchema = mongoose.Schema({
   favoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
 });
 
-//'collection name in DB', 'It'name inside the code'
+//'collection name in DB', model name
 const Movie = mongoose.model('movies', movieSchema);
 const User = mongoose.model('users', userSchema);
 module.exports.Movie = Movie;

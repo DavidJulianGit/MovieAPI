@@ -29,10 +29,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /**
+ * Importing authentication and passport module
+ */
+let auth = require('./auth.js')(app);
+const passport = require('passport');
+require('./passport');
+
+/**
  * Create a write stream to "log.txt"
  */
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {
-  flags: 'a',
+	flags: 'a',
 });
 
 /**
@@ -57,69 +64,85 @@ app.use(express.static('public'));
  * @param {import('express').Request} req - The request object.
  * @param {import('express').Response} res - The response object.
  */
-app.get('/movies', async (req, res) => {
-  await Movies.find()
-    .then((movies) => {
-      console.log(movies);
-      res.status(201).json(movies);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+app.get(
+	'/movies',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		await Movies.find()
+			.then((movies) => {
+				res.status(201).json(movies);
+			})
+			.catch((error) => {
+				console.error(error);
+				res.status(500).send('Error: ' + error);
+			});
+	},
+);
 
 /**
  * Get all data for a specific movie.
  * @param {import('express').Request} req - The request object.
  * @param {import('express').Response} res - The response object.
  */
-app.get('/movies/:title/', async (req, res) => {
-  await Movies.findOne({ title: req.params.title })
-    .then((movie) => {
-      res.json(movie);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+app.get(
+	'/movies/:title/',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		// Query DB
+		await Movies.findOne({ title: req.params.title })
+			.then((movie) => {
+				res.json(movie);
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	},
+);
 
 /**
  * Get description of a genre by name
  * @param {import('express').Request} req - The request object.
  * @param {import('express').Response} res - The response object.
  */
-app.get('/genres/:name/', async (req, res) => {
-  await Movies.findOne({ 'genres.name': req.params.name })
-    .then((movie) => {
-      console.log(movie);
-      const genre = movie.genres.find((genre) => {
-        return genre.name.toLowerCase() === req.params.name.toLowerCase();
-      });
-      res.status(201).json(genre);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+app.get(
+	'/genres/:name/',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		await Movies.findOne({ 'genres.name': req.params.name })
+			.then((movie) => {
+				console.log(movie);
+				const genre = movie.genres.find((genre) => {
+					return genre.name.toLowerCase() === req.params.name.toLowerCase();
+				});
+				res.status(201).json(genre);
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	},
+);
 
 /**
  * Get data for a specific director.
  * @param {import('express').Request} req - The request object.
  * @param {import('express').Response} res - The response object.
  */
-app.get('/directors/:name', async (req, res) => {
-  await Movies.findOne({ 'director.name': req.params.name })
-    .then((movie) => {
-      res.status(201).json(movie.director);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+app.get(
+	'/directors/:name',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		await Movies.findOne({ 'director.name': req.params.name })
+			.then((movie) => {
+				res.status(201).json(movie.director);
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	},
+);
 
 /**
  * Allow useres to register
@@ -127,34 +150,34 @@ app.get('/directors/:name', async (req, res) => {
  * @param {import('express').Response} res - The response object.
  */
 app.post('/users', async (req, res) => {
-  await Users.findOne({ email: req.body.email })
-    .then((user) => {
-      // if user already exists, return
-      if (user) {
-        return res.status(400).send(req.body.email + ' already exists');
-      }
-      // else create new user
-      else {
-        Users.create({
-          firstname: req.body.firstname,
-          lastname: req.body.lastname,
-          password: req.body.password,
-          email: req.body.email,
-          birthday: req.body.birthday,
-        })
-          .then((user) => {
-            res.status(201).json(user);
-          })
-          .catch((error) => {
-            console.error(error);
-            res.status(500).send('Error: ' + error);
-          });
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).send('Error: ' + error);
-    });
+	await Users.findOne({ email: req.body.email })
+		.then((user) => {
+			// if user already exists, return
+			if (user) {
+				return res.status(400).send(req.body.email + ' already exists');
+			}
+			// else create new user
+			else {
+				Users.create({
+					firstname: req.body.firstname,
+					lastname: req.body.lastname,
+					password: req.body.password,
+					email: req.body.email,
+					birthday: req.body.birthday,
+				})
+					.then((user) => {
+						res.status(201).json(user);
+					})
+					.catch((error) => {
+						console.error(error);
+						res.status(500).send('Error: ' + error);
+					});
+			}
+		})
+		.catch((error) => {
+			console.error(error);
+			res.status(500).send('Error: ' + error);
+		});
 });
 
 /**
@@ -162,96 +185,130 @@ app.post('/users', async (req, res) => {
  * @param {import('express').Request} req - The request object.
  * @param {import('express').Response} res - The response object.
  */
-app.patch('/users/:email', async (req, res) => {
-  await Users.findOneAndUpdate(
-    { email: req.params.email },
-    {
-      $set: {
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        password: req.body.password,
-        email: req.body.email,
-        birthday: req.body.birthday,
-      },
-    },
-    { new: true }, // This line makes sure that the updated document is returned
-  )
-    .then((updatedUser) => {
-      if (updatedUser) {
-        res.status(201).json(updatedUser);
-      } else {
-        res.status(400).send('Error: user not found.');
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+app.patch(
+	'/users/:email',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+
+		// Making sure that the username in the request body matches the one in the request parameter
+		if (req.user.email !== req.params.email) {
+			return res.status(400).send('Permission denied');
+		}
+
+		await Users.findOneAndUpdate(
+			{ email: req.params.email },
+			{
+				$set: {
+					firstname: req.body.firstname,
+					lastname: req.body.lastname,
+					password: req.body.password,
+					email: req.body.email,
+					birthday: req.body.birthday,
+				},
+			},
+			{ new: true }, // This line makes sure that the updated document is returned
+		)
+			.then((updatedUser) => {
+				if (updatedUser) {
+					res.status(201).json(updatedUser);
+				} else {
+					res.status(400).send('Error: user not found.');
+				}
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	},
+);
 
 /**
  * Allow users to add a movie to favorites
  * @param {import('express').Request} req - The request object.
  * @param {import('express').Response} res - The response object.
  */
-app.post('/users/:email/favoriteMovies/:movieId', async (req, res) => {
-  await Users.findOneAndUpdate(
-    { email: req.params.email },
-    {
-      $push: { favoriteMovies: req.params.movieId },
-    },
-    { new: true }, // This line makes sure that the updated document is returned
-  )
-    .then((updatedUser) => {
-      res.status(201).json(updatedUser);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+app.post(
+	'/users/:email/favoriteMovies/:movieId',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+
+		// Making sure that the username in the request body matches the one in the request parameter
+		if (req.user.email !== req.params.email) {
+			return res.status(400).send('Permission denied');
+		}
+
+		await Users.findOneAndUpdate(
+			{ email: req.params.email },
+			{
+				$push: { favoriteMovies: req.params.movieId },
+			},
+			{ new: true }, // This line makes sure that the updated document is returned
+		)
+			.then((updatedUser) => {
+				res.status(201).json(updatedUser);
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	},
+);
 
 /**
  * Allow users to remove a movie from favorites
  * @param {import('express').Request} req - The request object.
  * @param {import('express').Response} res - The response object.
  */
-app.delete('/users/:email/favoriteMovies/:movieId', async (req, res) => {
-  await Users.findOneAndUpdate(
-    { email: req.params.email },
-    {
-      $pull: { favoriteMovies: req.params.movieId },
-    },
-    { new: true }, // This line makes sure that the updated document is returned
-  )
-    .then((updatedUser) => {
-      res.status(201).json(updatedUser);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+app.delete(
+	'/users/:email/favoriteMovies/:movieId',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		await Users.findOneAndUpdate(
+			{ email: req.params.email },
+			{
+				$pull: { favoriteMovies: req.params.movieId },
+			},
+			{ new: true }, // This line makes sure that the updated document is returned
+		)
+			.then((updatedUser) => {
+				res.status(201).json(updatedUser);
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	},
+);
 
 /**
  * Allow existing users to deregister
  * @param {import('express').Request} req - The request object.
  * @param {import('express').Response} res - The response object.
  */
-app.delete('/users/:email', async (req, res) => {
-  await Users.findOneAndDelete({ email: req.params.email })
-    .then((user) => {
-      if (!user) {
-        res.status(404).send(req.params.email + ' was not found');
-      } else {
-        res.status(200).send(req.params.email + ' was deleted.');
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+app.delete(
+	'/users/:email',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+
+		// Making sure that the username in the request body matches the one in the request parameter
+		if (req.user.email !== req.params.email) {
+			return res.status(400).send('Permission denied');
+		}
+
+		await Users.findOneAndDelete({ email: req.params.email })
+			.then((user) => {
+				if (!user) {
+					res.status(404).send(req.params.email + ' was not found');
+				} else {
+					res.status(200).send(req.params.email + ' was deleted.');
+				}
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	},
+);
 
 /**
  * Response for index.
@@ -259,9 +316,9 @@ app.delete('/users/:email', async (req, res) => {
  * @param {import('express').Response} res - The response object.
  */
 app.get('/', (req, res) => {
-  res.send(
-    'Welcome to MYFLIX - your favorite source of information about the movies you love.',
-  );
+	res.send(
+		'Welcome to MYFLIX - your favorite source of information about the movies you love.',
+	);
 });
 
 // #endregion
@@ -274,8 +331,8 @@ app.get('/', (req, res) => {
  * @param {import('express').NextFunction} next - The next middleware function.
  */
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
+	console.error(err.stack);
+	res.status(500).send('Something broke!');
 });
 
 /**
@@ -284,5 +341,5 @@ app.use((err, req, res, next) => {
  * @param {Function} callback - A callback function that is executed when the server starts listening.
  */
 app.listen(port, () => {
-  console.log(`Your app is listening on port ${port}.`);
+	console.log(`Your app is listening on port ${port}.`);
 });

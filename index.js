@@ -3,69 +3,51 @@ const express = require('express');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
+const { check, validationResult } = require('express-validator');
 
 // Importing database modules
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
+// Mongoose Models
 const Movies = Models.Movie;
 const Users = Models.User;
 mongoose.connect('mongodb://localhost:27017/movieDB');
 
-/**
- * The dynamic port number configuration
- */
-const port = process.env.PORT || 8080;
 
-/**
- * Create the web server
- */
 const app = express();
 
-/**
- * Middleware to parse incoming request bodies as JSON.
- */
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-/**
- * Importing authentication and passport module
- */
+
+// Cross-Origin Resource Sharing 
+const cors = require('cors');
+app.use(cors());
+
+// Importing authentication and passport module
 let auth = require('./auth.js')(app);
 const passport = require('passport');
 require('./passport');
 
-/**
- * Create a write stream to "log.txt"
- */
+
+// Create write stream to "log.txt"
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {
 	flags: 'a',
 });
 
-/**
- * Setting up Morgan middleware to log requests in combined format to "log.txt" and common format to console.
- * @param {String} 'combined' - The format in which the requests are logged to "log.txt".
- * @param {Object} { stream: accessLogStream } - An object specifying the stream where logs are written.
- * @param {String} 'common' - The format in which the requests are logged to console.
- */
+// Setting up morgan
 app.use(morgan('combined', { stream: accessLogStream }));
 app.use(morgan('common'));
 
-/**
- * Middleware to serve static files from the 'public' directory.
- * @param {String} 'public' - The directory from which static files are served.
- */
+// serve static files from 'public'
 app.use(express.static('public'));
 
 // #region Endpoints
 
-/**
- * Get the title of all movies.
- * @param {import('express').Request} req - The request object.
- * @param {import('express').Response} res - The response object.
- */
-app.get(
-	'/movies',
+// Get all movies.
+app.get('/movies',
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
 		await Movies.find()
@@ -79,13 +61,8 @@ app.get(
 	},
 );
 
-/**
- * Get all data for a specific movie.
- * @param {import('express').Request} req - The request object.
- * @param {import('express').Response} res - The response object.
- */
-app.get(
-	'/movies/:title/',
+// Get all data for movie by name
+app.get('/movies/:title/',
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
 		// Query DB
@@ -100,13 +77,8 @@ app.get(
 	},
 );
 
-/**
- * Get description of a genre by name
- * @param {import('express').Request} req - The request object.
- * @param {import('express').Response} res - The response object.
- */
-app.get(
-	'/genres/:name/',
+// Get description of a genre by name
+app.get('/genres/:name/',
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
 		await Movies.findOne({ 'genres.name': req.params.name })
@@ -124,13 +96,8 @@ app.get(
 	},
 );
 
-/**
- * Get data for a specific director.
- * @param {import('express').Request} req - The request object.
- * @param {import('express').Response} res - The response object.
- */
-app.get(
-	'/directors/:name',
+// Get director by name
+app.get('/directors/:name',
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
 		await Movies.findOne({ 'director.name': req.params.name })
@@ -144,56 +111,118 @@ app.get(
 	},
 );
 
-/**
- * Allow useres to register
- * @param {import('express').Request} req - The request object.
- * @param {import('express').Response} res - The response object.
- */
-app.post('/users', async (req, res) => {
-	await Users.findOne({ email: req.body.email })
-		.then((user) => {
-			// if user already exists, return
-			if (user) {
-				return res.status(400).send(req.body.email + ' already exists');
-			}
-			// else create new user
-			else {
-				Users.create({
-					firstname: req.body.firstname,
-					lastname: req.body.lastname,
-					password: req.body.password,
-					email: req.body.email,
-					birthday: req.body.birthday,
-				})
-					.then((user) => {
-						res.status(201).json(user);
-					})
-					.catch((error) => {
-						console.error(error);
-						res.status(500).send('Error: ' + error);
-					});
-			}
-		})
-		.catch((error) => {
-			console.error(error);
-			res.status(500).send('Error: ' + error);
-		});
-});
+// Register new user
+app.post('/users',
+	// Validation logic
+	[
+		check('firstname', 'First name is required').trim().notEmpty(),
+		check('lastname', 'Last name is required').trim().notEmpty(),
+		check('password', 'Password must be at least 8 characters long.').trim().isLength({ min: 8 }),
+		check('email', 'Email does not appear to be valid').trim().isEmail(),
+		check('birthday')
+			.optional({ checkFalsy: true })
+			.custom((value) => {
+				if (value) {
+					const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+					if (!dateFormatRegex.test(value)) {
+						throw new Error('Invalid date format for birthday');
+					}
+					const [year, month, day] = value.split('-').map(Number);
+					if (month < 1 || month > 12) {
+						throw new Error('Month must be between 01 and 12');
+					}
+					if (day < 1 || day > 31) {
+						throw new Error('Day must be between 01 and 31');
+					}
+				}
+				return true;
+			})
+			.toDate(),
+	],
+	async (req, res) => {
 
-/**
- * Allow useres to update their user data
- * @param {import('express').Request} req - The request object.
- * @param {import('express').Response} res - The response object.
- */
-app.patch(
-	'/users/:email',
+		// check the validation object for errors
+		let errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+			return res.status(422).json({ errors: errors.array() });
+		}
+
+		// hash password
+		let hashedPassword = Users.hashPassword(req.body.password);
+
+		await Users.findOne({ email: req.body.email })
+			.then((user) => {
+				// If user already exists, error
+				if (user) {
+					return res.status(400).send(req.body.email + ' already exists');
+				}
+				// Create new user
+				else {
+					Users.create({
+						firstname: req.body.firstname,
+						lastname: req.body.lastname,
+						password: hashedPassword,
+						email: req.body.email,
+						birthday: req.body.birthday,
+					})
+						.then((user) => {
+							res.status(201).json(user);
+						})
+						.catch((error) => {
+							console.error(error);
+							res.status(500).send('Error: ' + error);
+						});
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+				res.status(500).send('Error: ' + error);
+			});
+	});
+
+// Update user data by email
+app.put('/users/:email',
+	// Validation logic
+	[
+		check('firstname', 'First name is required').trim().notEmpty(),
+		check('lastname', 'Last name is required').trim().notEmpty(),
+		check('password', 'Password must be at least 8 characters long.').trim().isLength({ min: 8 }),
+		check('email', 'Email does not appear to be valid').trim().isEmail(),
+		check('birthday')
+			.optional({ checkFalsy: true })
+			.custom((value) => {
+				if (value) {
+					const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+					if (!dateFormatRegex.test(value)) {
+						throw new Error('Invalid date format for birthday');
+					}
+					const [year, month, day] = value.split('-').map(Number);
+					if (month < 1 || month > 12) {
+						throw new Error('Month must be between 01 and 12');
+					}
+					if (day < 1 || day > 31) {
+						throw new Error('Day must be between 01 and 31');
+					}
+				}
+				return true;
+			})
+			.toDate(),
+	],
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
 
-		// Making sure that the username in the request body matches the one in the request parameter
 		if (req.user.email !== req.params.email) {
 			return res.status(400).send('Permission denied');
 		}
+
+		let errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+			return res.status(422).json({ errors: errors.array() });
+		}
+
+		let hashedPassword = Users.hashPassword(req.body.password);
 
 		await Users.findOneAndUpdate(
 			{ email: req.params.email },
@@ -201,7 +230,7 @@ app.patch(
 				$set: {
 					firstname: req.body.firstname,
 					lastname: req.body.lastname,
-					password: req.body.password,
+					password: hashedPassword,
 					email: req.body.email,
 					birthday: req.body.birthday,
 				},
@@ -222,17 +251,13 @@ app.patch(
 	},
 );
 
-/**
- * Allow users to add a movie to favorites
- * @param {import('express').Request} req - The request object.
- * @param {import('express').Response} res - The response object.
- */
+// Add favorite movie to user
 app.post(
 	'/users/:email/favoriteMovies/:movieId',
+
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
 
-		// Making sure that the username in the request body matches the one in the request parameter
 		if (req.user.email !== req.params.email) {
 			return res.status(400).send('Permission denied');
 		}
@@ -254,11 +279,7 @@ app.post(
 	},
 );
 
-/**
- * Allow users to remove a movie from favorites
- * @param {import('express').Request} req - The request object.
- * @param {import('express').Response} res - The response object.
- */
+// Remove favorite movie from user
 app.delete(
 	'/users/:email/favoriteMovies/:movieId',
 	passport.authenticate('jwt', { session: false }),
@@ -280,11 +301,7 @@ app.delete(
 	},
 );
 
-/**
- * Allow existing users to deregister
- * @param {import('express').Request} req - The request object.
- * @param {import('express').Response} res - The response object.
- */
+// Delete user account
 app.delete(
 	'/users/:email',
 	passport.authenticate('jwt', { session: false }),
@@ -310,11 +327,6 @@ app.delete(
 	},
 );
 
-/**
- * Response for index.
- * @param {import('express').Request} req - The request object.
- * @param {import('express').Response} res - The response object.
- */
 app.get('/', (req, res) => {
 	res.send(
 		'Welcome to MYFLIX - your favorite source of information about the movies you love.',
@@ -323,23 +335,14 @@ app.get('/', (req, res) => {
 
 // #endregion
 
-/**
- * Error handling
- * @param {Error} err - The error object.
- * @param {import('express').Request} req - The request object.
- * @param {import('express').Response} res - The response object.
- * @param {import('express').NextFunction} next - The next middleware function.
- */
+// Error handling
 app.use((err, req, res, next) => {
 	console.error(err.stack);
 	res.status(500).send('Something broke!');
 });
 
-/**
- * listen for incoming requests on the specified port.
- * @param {number} port - The port number on which the server will listen for incoming requests.
- * @param {Function} callback - A callback function that is executed when the server starts listening.
- */
-app.listen(port, () => {
-	console.log(`Your app is listening on port ${port}.`);
+// Listen on port
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () => {
+	console.log('Listening on Port ' + port);
 });

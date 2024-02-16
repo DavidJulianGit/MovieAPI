@@ -12,7 +12,8 @@ const Models = require('./models.js');
 // Mongoose Models
 const Movies = Models.Movie;
 const Users = Models.User;
-mongoose.connect('mongodb://localhost:27017/movieDB');
+//mongoose.connect('mongodb://localhost:27017/movieDB');
+mongoose.Connection(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 const app = express();

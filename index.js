@@ -72,36 +72,20 @@ app.use(express.static('public'));
 // #region Endpoints
 
 /**
- * Fetches the description of a genre by name.
+ * Fetches all movies.
  * @param {Object} req - The request object.
- * @param {string} req.params.name - The name of the genre to fetch description for.
  * @param {Object} res - The response object.
  * @returns {Promise<void>} A promise that resolves once the response is sent.
  */
-app.get('/genres/:name/',
+app.get('/movies',
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
 		try {
-			// Query the database to find a movie with the specified genre
-			const movie = await Movies.findOne({ 'genres.name': req.params.name });
+			// Fetch all movies
+			const movies = await Movies.find();
 
-			// If the movie is found, find the genre with the specified name
-			if (movie) {
-				const genre = movie.genres.find((genre) => {
-					return genre.name.toLowerCase() === req.params.name.toLowerCase();
-				});
-
-				// If the genre is found, send its description in the response
-				if (genre) {
-					res.status(200).json({ description: genre.description });
-				} else {
-					// If the genre is not found, send a 404 Not Found response
-					res.status(404).send('Genre not found');
-				}
-			} else {
-				// If the movie is not found, send a 404 Not Found response
-				res.status(404).send('Movie not found');
-			}
+			// Send the list of movies in the response
+			res.status(200).json(movies);
 		} catch (error) {
 			// Handle any errors that occur during the operation
 			console.error(error);

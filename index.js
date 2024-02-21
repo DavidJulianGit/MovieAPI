@@ -78,7 +78,7 @@ app.use(express.static('public'));
  * @returns {Promise<void>} A promise that resolves once the response is sent.
  */
 app.get('/movies',
-   //passport.authenticate('jwt', { session: false }), for Ex 3.4
+   passport.authenticate('jwt', { session: false })
    async (req, res) => {
       try {
          // Fetch all movies

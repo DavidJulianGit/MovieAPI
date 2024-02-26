@@ -341,7 +341,7 @@ app.patch('/users/:email',
 
          // If password is present in the request body, hash it
          if (req.body.password) {
-            req.body.password = bcryptjs.hashSync(req.body.password, 10);
+            req.body.password = await Users.hashPassword(req.body.password, 10);
          }
 
          // Find the user by email and update the user data

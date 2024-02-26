@@ -339,6 +339,11 @@ app.patch('/users/:email',
             return res.status(400).send({ error: 'Invalid updates!' });
          }
 
+         // If password is present in the request body, hash it
+         if (req.body.password) {
+            req.body.password = bcryptjs.hashSync(req.body.password, 10);
+         }
+
          // Find the user by email and update the user data
          const updatedUser = await Users.findOneAndUpdate(
             { email: req.params.email },

@@ -353,8 +353,7 @@ app.patch('/users/:email',
 
          // Check if the user was found and updated successfully
          if (updatedUser) {
-            let token = generateJWTToken(updatedUser.toJSON());
-            res.status(200).json({ updatedUser, token });
+            res.status(200).json(updatedUser);
          } else {
             res.status(404).send('User not found');
          }

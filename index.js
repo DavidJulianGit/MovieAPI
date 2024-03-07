@@ -259,7 +259,7 @@ async function registerUser(userData) {
    // Check if user already exists
    const existingUser = await Users.findOne({ email });
    if (existingUser) {
-      throw new Error('User with this email already exists');
+      throw new Error(`User '${email}' already exists.`);
    }
 
    // Hash password
@@ -328,7 +328,7 @@ app.patch('/users/:email',
       try {
          // Ensure the authenticated user has permission to update this user's data
          if (req.user.email !== req.params.email) {
-            return res.status(403).send('Permission denied');
+            return res.status(403).send('Permission denied.');
          }
 
          // Validate the request body fields
@@ -336,7 +336,7 @@ app.patch('/users/:email',
          const updates = Object.keys(req.body);
          const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
          if (!isValidOperation) {
-            return res.status(400).send({ error: 'Invalid updates!' });
+            return res.status(400).send({ error: 'Invalid updates.' });
          }
 
          // If password is present in the request body, hash it
@@ -355,7 +355,7 @@ app.patch('/users/:email',
          if (updatedUser) {
             res.status(200).json(updatedUser);
          } else {
-            res.status(404).send('User not found');
+            res.status(404).send('User not found.');
          }
       } catch (error) {
          console.error(error);
@@ -470,7 +470,7 @@ app.delete('/users/:email',
       try {
          // Ensure the authenticated user has permission to delete the specified user account
          if (req.user.email !== req.params.email) {
-            return res.status(403).send('Permission denied');
+            return res.status(403).send('Permission denied.');
          }
 
          // Delete the user account
@@ -478,7 +478,7 @@ app.delete('/users/:email',
 
          // Check if the user account was found and deleted successfully
          if (!deletedUser) {
-            res.status(404).send(req.params.email + ' was not found');
+            res.status(404).send(req.params.email + ' was not found.');
          } else {
             res.status(200).send(req.params.email + ' was deleted.');
          }

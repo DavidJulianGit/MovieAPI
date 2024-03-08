@@ -148,11 +148,11 @@ app.get('/genres/:name/',
                res.status(200).json({ description: genre.description });
             } else {
                // If the genre is not found, send a 404 Not Found response
-               res.status(404).send('Genre not found');
+               res.status(404).send('Genre not found.');
             }
          } else {
             // If the movie is not found, send a 404 Not Found response
-            res.status(404).send('Movie not found');
+            res.status(404).send('Movie not found.');
          }
       } catch (error) {
          // Handle any errors that occur during the operation
@@ -181,7 +181,7 @@ app.get('/directors/:name',
             res.status(200).json(movie.director);
          } else {
             // If the movie is not found, send a 404 Not Found response
-            res.status(404).send('Director not found');
+            res.status(404).send('Director not found.');
          }
       } catch (error) {
          // Handle any errors that occur during the operation
@@ -200,12 +200,12 @@ const validationLogic = [
    /**
      * Checks if the first name is provided and not empty.
      */
-   check('firstname', 'First name is required').trim().notEmpty(),
+   check('firstname', 'First name is required.').trim().notEmpty(),
 
    /**
     * Checks if the last name is provided and not empty.
     */
-   check('lastname', 'Last name is required').trim().notEmpty(),
+   check('lastname', 'Last name is required.').trim().notEmpty(),
 
    /**
     * Checks if the password is provided, not empty, and at least 8 characters long.
@@ -215,7 +215,7 @@ const validationLogic = [
    /**
     * Checks if the email is provided, appears to be valid, and normalizes it.
     */
-   check('email', 'Email does not appear to be valid').trim().isEmail().normalizeEmail(),
+   check('email', 'E-Mail does not appear to be valid.').trim().isEmail().normalizeEmail(),
 
    /**
     * Checks if the birthday is in the correct format (YYYY-MM-DD) and within valid ranges.
@@ -227,14 +227,14 @@ const validationLogic = [
          if (value) {
             const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
             if (!dateFormatRegex.test(value)) {
-               throw new Error('Invalid date format for birthday');
+               throw new Error('Invalid date format for birthday.');
             }
             const [year, month, day] = value.split('-').map(Number);
             if (month < 1 || month > 12) {
-               throw new Error('Month must be between 01 and 12');
+               throw new Error('Month must be between 01 and 12.');
             }
             if (day < 1 || day > 31) {
-               throw new Error('Day must be between 01 and 31');
+               throw new Error('Day must be between 01 and 31.');
             }
          }
          return true;

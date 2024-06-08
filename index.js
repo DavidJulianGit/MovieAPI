@@ -40,14 +40,18 @@ const cors = require('cors');
 let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'http://localhost:4200', 'https://davidsmyflix.netlify.app'];
 app.use(cors({
    origin: (origin, callback) => {
+      console.log('Incoming origin:', origin);
       if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
+      if (origin.includes('localhost') || allowedOrigins.includes(origin)) {
+         return callback(null, true);
+      }
+      else {
          let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
          return callback(new Error(message), false);
       }
-      return callback(null, true);
    }
 }));
+
 /**
  * Importing authentication and passport module
  */

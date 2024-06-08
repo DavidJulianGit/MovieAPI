@@ -19,7 +19,7 @@ const Users = Models.User;
 /**
  * Connect to database
  */
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.CONNECTION_URI);
 
 /**
  * Create the web server
@@ -37,7 +37,7 @@ app.use(express.urlencoded({ extended: true }));
  * Cross-Origin Resource Sharing 
  */
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://davidsmyflix.netlify.app'];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'http://localhost:4200', 'https://davidsmyflix.netlify.app'];
 app.use(cors({
    origin: (origin, callback) => {
       if (!origin) return callback(null, true);

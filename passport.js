@@ -40,7 +40,7 @@ passport.use(
                }
 
                // Success -> return user
-               console.log('finished');
+               console.log('successful login');
                return callback(null, user);
             })
             .catch((error) => {

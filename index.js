@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const { check, validationResult } = require('express-validator');
 
-
 // Importing database modules
 const mongoose = require('mongoose');
 const Models = require('./models.js');
@@ -32,24 +31,33 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 /**
- * Cross-Origin Resource Sharing 
+ * Cross-Origin Resource Sharing
  */
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'http://localhost:4200', 'https://davidsmyflix.netlify.app'];
-app.use(cors({
-   origin: (origin, callback) => {
-      console.log('Incoming origin:', origin);
-      if (!origin) return callback(null, true);
+let allowedOrigins = [
+	'http://localhost:8080',
+	'http://localhost:1234',
+	'http://localhost:4200',
+	'https://davidsmyflix.netlify.app',
+	'https://davidjuliangit.github.io'
+];
+app.use(
+	cors({
+		origin: (origin, callback) => {
+			console.log('Incoming origin:', origin);
+			if (!origin) return callback(null, true);
 
-      if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
-         let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-         return callback(new Error(message), false);
-      }
-      return callback(null, true);
-   }
-}));
+			if (allowedOrigins.indexOf(origin) === -1) {
+				// If a specific origin isn’t found on the list of allowed origins
+				let message =
+					'The CORS policy for this application doesn’t allow access from origin ' + origin;
+				return callback(new Error(message), false);
+			}
+			return callback(null, true);
+		}
+	})
+);
 
 /**
  * Importing authentication and passport module
@@ -58,12 +66,11 @@ let auth = require('./auth.js')(app);
 const passport = require('passport');
 require('./passport');
 
-
 /**
  * Create write stream to "log.txt"
  */
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {
-   flags: 'a',
+	flags: 'a'
 });
 
 /**
@@ -89,22 +96,19 @@ app.use(express.static('public'));
  * @param {Object} res - The response object.
  * @returns {Promise<void>} A promise that resolves once the response is sent.
  */
-app.get('/movies',
-   passport.authenticate('jwt', { session: false }),
-   async (req, res) => {
-      try {
-         // Fetch all movies
-         const movies = await Movies.find();
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+	try {
+		// Fetch all movies
+		const movies = await Movies.find();
 
-         // Send the list of movies in the response
-         res.status(200).json(movies);
-      } catch (error) {
-         // Handle any errors that occur during the operation
-         console.error(error);
-         res.status(500).send('Error: ' + error.message);
-      }
-   }
-);
+		// Send the list of movies in the response
+		res.status(200).json(movies);
+	} catch (error) {
+		// Handle any errors that occur during the operation
+		console.error(error);
+		res.status(500).send('Error: ' + error.message);
+	}
+});
 
 /**
  * Fetches movie data by title.
@@ -113,27 +117,24 @@ app.get('/movies',
  * @param {Object} res - The response object.
  * @returns {Promise<void>} A promise that resolves once the response is sent.
  */
-app.get('/movies/:title/',
-   passport.authenticate('jwt', { session: false }),
-   async (req, res) => {
-      try {
-         // Query the database to find the movie by title
-         const movie = await Movies.findOne({ title: req.params.title });
+app.get('/movies/:title/', passport.authenticate('jwt', { session: false }), async (req, res) => {
+	try {
+		// Query the database to find the movie by title
+		const movie = await Movies.findOne({ title: req.params.title });
 
-         // If the movie is found, send its data in the response
-         if (movie) {
-            res.status(200).json(movie);
-         } else {
-            // If the movie is not found, send a 404 Not Found response
-            res.status(404).send('Movie not found');
-         }
-      } catch (error) {
-         // Handle any errors that occur during the operation
-         console.error(error);
-         res.status(500).send('Error: ' + error.message);
-      }
-   }
-);
+		// If the movie is found, send its data in the response
+		if (movie) {
+			res.status(200).json(movie);
+		} else {
+			// If the movie is not found, send a 404 Not Found response
+			res.status(404).send('Movie not found');
+		}
+	} catch (error) {
+		// Handle any errors that occur during the operation
+		console.error(error);
+		res.status(500).send('Error: ' + error.message);
+	}
+});
 
 /**
  * Fetches the description of a genre by name.
@@ -142,37 +143,34 @@ app.get('/movies/:title/',
  * @param {Object} res - The response object.
  * @returns {Promise<void>} A promise that resolves once the response is sent.
  */
-app.get('/genres/:name/',
-   passport.authenticate('jwt', { session: false }),
-   async (req, res) => {
-      try {
-         // Query the database to find a movie with the specified genre
-         const movie = await Movies.findOne({ 'genres.name': req.params.name });
+app.get('/genres/:name/', passport.authenticate('jwt', { session: false }), async (req, res) => {
+	try {
+		// Query the database to find a movie with the specified genre
+		const movie = await Movies.findOne({ 'genres.name': req.params.name });
 
-         // If the movie is found, find the genre with the specified name
-         if (movie) {
-            const genre = movie.genres.find((genre) => {
-               return genre.name.toLowerCase() === req.params.name.toLowerCase();
-            });
+		// If the movie is found, find the genre with the specified name
+		if (movie) {
+			const genre = movie.genres.find(genre => {
+				return genre.name.toLowerCase() === req.params.name.toLowerCase();
+			});
 
-            // If the genre is found, send its description in the response
-            if (genre) {
-               res.status(200).json({ description: genre.description });
-            } else {
-               // If the genre is not found, send a 404 Not Found response
-               res.status(404).send('Genre not found.');
-            }
-         } else {
-            // If the movie is not found, send a 404 Not Found response
-            res.status(404).send('Movie not found.');
-         }
-      } catch (error) {
-         // Handle any errors that occur during the operation
-         console.error(error);
-         res.status(500).send('Error: ' + error.message);
-      }
-   }
-);
+			// If the genre is found, send its description in the response
+			if (genre) {
+				res.status(200).json({ description: genre.description });
+			} else {
+				// If the genre is not found, send a 404 Not Found response
+				res.status(404).send('Genre not found.');
+			}
+		} else {
+			// If the movie is not found, send a 404 Not Found response
+			res.status(404).send('Movie not found.');
+		}
+	} catch (error) {
+		// Handle any errors that occur during the operation
+		console.error(error);
+		res.status(500).send('Error: ' + error.message);
+	}
+});
 
 /**
  * Fetches a director by name.
@@ -181,77 +179,77 @@ app.get('/genres/:name/',
  * @param {Object} res - The response object.
  * @returns {Promise<void>} A promise that resolves once the response is sent.
  */
-app.get('/directors/:name',
-   passport.authenticate('jwt', { session: false }),
-   async (req, res) => {
-      try {
-         // Query the database to find a movie with the specified director
-         const movie = await Movies.findOne({ 'director.name': req.params.name });
+app.get('/directors/:name', passport.authenticate('jwt', { session: false }), async (req, res) => {
+	try {
+		// Query the database to find a movie with the specified director
+		const movie = await Movies.findOne({
+			'director.name': req.params.name
+		});
 
-         // If the movie is found, send the director's information in the response
-         if (movie) {
-            res.status(200).json(movie.director);
-         } else {
-            // If the movie is not found, send a 404 Not Found response
-            res.status(404).send('Director not found.');
-         }
-      } catch (error) {
-         // Handle any errors that occur during the operation
-         console.error(error);
-         res.status(500).send('Error: ' + error.message);
-      }
-   }
-);
-;
-
+		// If the movie is found, send the director's information in the response
+		if (movie) {
+			res.status(200).json(movie.director);
+		} else {
+			// If the movie is not found, send a 404 Not Found response
+			res.status(404).send('Director not found.');
+		}
+	} catch (error) {
+		// Handle any errors that occur during the operation
+		console.error(error);
+		res.status(500).send('Error: ' + error.message);
+	}
+});
 /**
  * Validation logic for user registration.
  * @type {Array<function>}
  */
 const validationLogic = [
-   /**
-     * Checks if the first name is provided and not empty.
-     */
-   check('firstname', 'First name is required.').trim().notEmpty(),
+	/**
+	 * Checks if the first name is provided and not empty.
+	 */
+	check('firstname', 'First name is required.').trim().notEmpty(),
 
-   /**
-    * Checks if the last name is provided and not empty.
-    */
-   check('lastname', 'Last name is required.').trim().notEmpty(),
+	/**
+	 * Checks if the last name is provided and not empty.
+	 */
+	check('lastname', 'Last name is required.').trim().notEmpty(),
 
-   /**
-    * Checks if the password is provided, not empty, and at least 8 characters long.
-    */
-   check('password', 'Password must be at least 8 characters long.').trim().notEmpty().isLength({ min: 8 }),
+	/**
+	 * Checks if the password is provided, not empty, and at least 8 characters long.
+	 */
+	check('password', 'Password must be at least 8 characters long.')
+		.trim()
+		.notEmpty()
+		.isLength({ min: 8 }),
 
-   /**
-    * Checks if the email is provided, appears to be valid, and normalizes it.
-    */
-   check('email', 'E-Mail does not appear to be valid.').trim().isEmail().normalizeEmail(),
+	/**
+	 * Checks if the email is provided, appears to be valid, and normalizes it.
+	 */
+	check('email', 'E-Mail does not appear to be valid.').trim().isEmail().normalizeEmail(),
 
-   /**
-    * Checks if the birthday is in the correct format (YYYY-MM-DD) and within valid ranges.
-    * It is optional, but if provided, must be a valid date.
-    */
-   check('birthday')
-      .optional({ checkFalsy: true })
-      .custom((value) => {
-         if (value) {
-            const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
-            if (!dateFormatRegex.test(value)) {
-               throw new Error('Invalid date format for birthday.');
-            }
-            const [year, month, day] = value.split('-').map(Number);
-            if (month < 1 || month > 12) {
-               throw new Error('Month must be between 01 and 12.');
-            }
-            if (day < 1 || day > 31) {
-               throw new Error('Day must be between 01 and 31.');
-            }
-         }
-         return true;
-      })
-      .toDate()
+	/**
+	 * Checks if the birthday is in the correct format (YYYY-MM-DD) and within valid ranges.
+	 * It is optional, but if provided, must be a valid date.
+	 */
+	check('birthday')
+		.optional({ checkFalsy: true })
+		.custom(value => {
+			if (value) {
+				const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+				if (!dateFormatRegex.test(value)) {
+					throw new Error('Invalid date format for birthday.');
+				}
+				const [year, month, day] = value.split('-').map(Number);
+				if (month < 1 || month > 12) {
+					throw new Error('Month must be between 01 and 12.');
+				}
+				if (day < 1 || day > 31) {
+					throw new Error('Day must be between 01 and 31.');
+				}
+			}
+			return true;
+		})
+		.toDate()
 ];
 
 /**
@@ -266,27 +264,27 @@ const validationLogic = [
  * @throws {Error} If a user with the same email already exists, or if an error occurs during user registration.
  */
 async function registerUser(userData) {
-   const { firstname, lastname, password, email, birthday } = userData;
+	const { firstname, lastname, password, email, birthday } = userData;
 
-   // Check if user already exists
-   const existingUser = await Users.findOne({ email });
-   if (existingUser) {
-      throw new Error(`User '${email}' already exists.`);
-   }
+	// Check if user already exists
+	const existingUser = await Users.findOne({ email });
+	if (existingUser) {
+		throw new Error(`User '${email}' already exists.`);
+	}
 
-   // Hash password
-   const hashedPassword = await Users.hashPassword(password);
+	// Hash password
+	const hashedPassword = await Users.hashPassword(password);
 
-   // Create new user
-   const newUser = await Users.create({
-      firstname,
-      lastname,
-      password: hashedPassword,
-      email,
-      birthday,
-   });
+	// Create new user
+	const newUser = await Users.create({
+		firstname,
+		lastname,
+		password: hashedPassword,
+		email,
+		birthday
+	});
 
-   return newUser;
+	return newUser;
 }
 
 /**
@@ -296,20 +294,19 @@ async function registerUser(userData) {
  * @returns {Promise<void>} A promise that resolves once the response is sent.
  */
 async function handleUserRegistration(req, res) {
-   try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-         return res.status(422).json({ errors: errors.array() });
-      }
+	try {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(422).json({ errors: errors.array() });
+		}
 
-      // Use separate function to handle user creation and password hashing
-      const result = await registerUser(req.body);
-      res.status(201).json(result);
-   }
-   catch (error) {
-      console.error(error);
-      res.status(500).json({ message: error.message });
-   }
+		// Use separate function to handle user creation and password hashing
+		const result = await registerUser(req.body);
+		res.status(201).json(result);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: error.message });
+	}
 }
 
 /**
@@ -334,47 +331,44 @@ app.post('/users', validationLogic, handleUserRegistration);
  * @param {Object} res - The response object.
  * @returns {Promise<void>} A promise that resolves once the response is sent.
  */
-app.patch('/users/:email',
-   passport.authenticate('jwt', { session: false }),
-   async (req, res) => {
-      try {
-         // Ensure the authenticated user has permission to update this user's data
-         if (req.user.email !== req.params.email) {
-            return res.status(403).send('Permission denied.');
-         }
+app.patch('/users/:email', passport.authenticate('jwt', { session: false }), async (req, res) => {
+	try {
+		// Ensure the authenticated user has permission to update this user's data
+		if (req.user.email !== req.params.email) {
+			return res.status(403).send('Permission denied.');
+		}
 
-         // Validate the request body fields
-         const allowedUpdates = ['firstname', 'lastname', 'password', 'email', 'birthday'];
-         const updates = Object.keys(req.body);
-         const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
-         if (!isValidOperation) {
-            return res.status(400).send({ error: 'Invalid updates.' });
-         }
+		// Validate the request body fields
+		const allowedUpdates = ['firstname', 'lastname', 'password', 'email', 'birthday'];
+		const updates = Object.keys(req.body);
+		const isValidOperation = updates.every(update => allowedUpdates.includes(update));
+		if (!isValidOperation) {
+			return res.status(400).send({ error: 'Invalid updates.' });
+		}
 
-         // If password is present in the request body, hash it
-         if (req.body.password) {
-            req.body.password = await Users.hashPassword(req.body.password, 10);
-         }
+		// If password is present in the request body, hash it
+		if (req.body.password) {
+			req.body.password = await Users.hashPassword(req.body.password, 10);
+		}
 
-         // Find the user by email and update the user data
-         const updatedUser = await Users.findOneAndUpdate(
-            { email: req.params.email },
-            { $set: req.body },
-            { new: true } // Return the updated document
-         );
+		// Find the user by email and update the user data
+		const updatedUser = await Users.findOneAndUpdate(
+			{ email: req.params.email },
+			{ $set: req.body },
+			{ new: true } // Return the updated document
+		);
 
-         // Check if the user was found and updated successfully
-         if (updatedUser) {
-            res.status(200).json(updatedUser);
-         } else {
-            res.status(404).send('User not found.');
-         }
-      } catch (error) {
-         console.error(error);
-         res.status(500).send('Error: ' + error.message);
-      }
-   }
-);
+		// Check if the user was found and updated successfully
+		if (updatedUser) {
+			res.status(200).json(updatedUser);
+		} else {
+			res.status(404).send('User not found.');
+		}
+	} catch (error) {
+		console.error(error);
+		res.status(500).send('Error: ' + error.message);
+	}
+});
 
 /**
  * Adds a favorite movie to the user's account.
@@ -387,38 +381,39 @@ app.patch('/users/:email',
  * @param {Object} res - The response object.
  * @returns {Promise<void>} A promise that resolves once the response is sent.
  */
-app.post('/users/:email/favoriteMovies/:movieId',
-   passport.authenticate('jwt', { session: false }),
-   async (req, res) => {
-      try {
-         // Ensure the authenticated user has permission to add favorites to this user's account
-         if (req.user.email !== req.params.email) {
-            return res.status(403).send('Permission denied');
-         }
+app.post(
+	'/users/:email/favoriteMovies/:movieId',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		try {
+			// Ensure the authenticated user has permission to add favorites to this user's account
+			if (req.user.email !== req.params.email) {
+				return res.status(403).send('Permission denied');
+			}
 
-         // Check if the provided movie ID is a valid MongoDB ObjectId
-         if (!ObjectId.isValid(req.params.movieId)) {
-            return res.status(400).send('Invalid movie ID');
-         }
+			// Check if the provided movie ID is a valid MongoDB ObjectId
+			if (!ObjectId.isValid(req.params.movieId)) {
+				return res.status(400).send('Invalid movie ID');
+			}
 
-         // Update the user's favorite movies list
-         const updatedUser = await Users.findOneAndUpdate(
-            { email: req.params.email },
-            { $addToSet: { favoriteMovies: req.params.movieId } }, // Use $addToSet to avoid duplicate entries
-            { new: true } // Return the updated document
-         );
+			// Update the user's favorite movies list
+			const updatedUser = await Users.findOneAndUpdate(
+				{ email: req.params.email },
+				{ $addToSet: { favoriteMovies: req.params.movieId } }, // Use $addToSet to avoid duplicate entries
+				{ new: true } // Return the updated document
+			);
 
-         // Check if the user was found and updated successfully
-         if (updatedUser) {
-            res.status(201).json(updatedUser);
-         } else {
-            res.status(404).send('User not found');
-         }
-      } catch (error) {
-         console.error(error);
-         res.status(500).send('Error: ' + error.message);
-      }
-   }
+			// Check if the user was found and updated successfully
+			if (updatedUser) {
+				res.status(201).json(updatedUser);
+			} else {
+				res.status(404).send('User not found');
+			}
+		} catch (error) {
+			console.error(error);
+			res.status(500).send('Error: ' + error.message);
+		}
+	}
 );
 
 /**
@@ -432,38 +427,39 @@ app.post('/users/:email/favoriteMovies/:movieId',
  * @param {Object} res - The response object.
  * @returns {Promise<void>} A promise that resolves once the response is sent.
  */
-app.delete('/users/:email/favoriteMovies/:movieId',
-   passport.authenticate('jwt', { session: false }),
-   async (req, res) => {
-      try {
-         // Ensure the authenticated user has permission to remove favorites from this user's account
-         if (req.user.email !== req.params.email) {
-            return res.status(403).send('Permission denied');
-         }
+app.delete(
+	'/users/:email/favoriteMovies/:movieId',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		try {
+			// Ensure the authenticated user has permission to remove favorites from this user's account
+			if (req.user.email !== req.params.email) {
+				return res.status(403).send('Permission denied');
+			}
 
-         // Check if the provided movie ID is a valid MongoDB ObjectId
-         if (!ObjectId.isValid(req.params.movieId)) {
-            return res.status(400).send('Invalid movie ID');
-         }
+			// Check if the provided movie ID is a valid MongoDB ObjectId
+			if (!ObjectId.isValid(req.params.movieId)) {
+				return res.status(400).send('Invalid movie ID');
+			}
 
-         // Update the user's favorite movies list to remove the specified movie
-         const updatedUser = await Users.findOneAndUpdate(
-            { email: req.params.email },
-            { $pull: { favoriteMovies: req.params.movieId } },
-            { new: true } // Return the updated document
-         );
+			// Update the user's favorite movies list to remove the specified movie
+			const updatedUser = await Users.findOneAndUpdate(
+				{ email: req.params.email },
+				{ $pull: { favoriteMovies: req.params.movieId } },
+				{ new: true } // Return the updated document
+			);
 
-         // Check if the user was found and updated successfully
-         if (updatedUser) {
-            res.status(200).json(updatedUser);
-         } else {
-            res.status(404).send('User not found');
-         }
-      } catch (error) {
-         console.error(error);
-         res.status(500).send('Error: ' + error.message);
-      }
-   }
+			// Check if the user was found and updated successfully
+			if (updatedUser) {
+				res.status(200).json(updatedUser);
+			} else {
+				res.status(404).send('User not found');
+			}
+		} catch (error) {
+			console.error(error);
+			res.status(500).send('Error: ' + error.message);
+		}
+	}
 );
 
 /**
@@ -476,47 +472,44 @@ app.delete('/users/:email/favoriteMovies/:movieId',
  * @param {Object} res - The response object.
  * @returns {Promise<void>} A promise that resolves once the response is sent.
  */
-app.delete('/users/:email',
-   passport.authenticate('jwt', { session: false }),
-   async (req, res) => {
-      try {
-         // Ensure the authenticated user has permission to delete the specified user account
-         if (req.user.email !== req.params.email) {
-            return res.status(403).send('Permission denied.');
-         }
+app.delete('/users/:email', passport.authenticate('jwt', { session: false }), async (req, res) => {
+	try {
+		// Ensure the authenticated user has permission to delete the specified user account
+		if (req.user.email !== req.params.email) {
+			return res.status(403).send('Permission denied.');
+		}
 
-         // Delete the user account
-         const deletedUser = await Users.findOneAndDelete({ email: req.params.email });
+		// Delete the user account
+		const deletedUser = await Users.findOneAndDelete({
+			email: req.params.email
+		});
 
-         // Check if the user account was found and deleted successfully
-         if (!deletedUser) {
-            res.status(404).send(req.params.email + ' was not found.');
-         } else {
-            res.status(200).send(req.params.email + ' was deleted.');
-         }
-      } catch (error) {
-         console.error(error);
-         res.status(500).send('Error: ' + error.message);
-      }
-   }
-);
+		// Check if the user account was found and deleted successfully
+		if (!deletedUser) {
+			res.status(404).send(req.params.email + ' was not found.');
+		} else {
+			res.status(200).send(req.params.email + ' was deleted.');
+		}
+	} catch (error) {
+		console.error(error);
+		res.status(500).send('Error: ' + error.message);
+	}
+});
 
 app.get('/', (req, res) => {
-   res.send(
-      'Welcome to MYFLIX - your favorite source of information about the movies you love.',
-   );
+	res.send('Welcome to MYFLIX - your favorite source of information about the movies you love.');
 });
 
 // #endregion
 
 // Error handling
 app.use((err, req, res, next) => {
-   console.error(err.stack);
-   res.status(500).send('Something broke!');
+	console.error(err.stack);
+	res.status(500).send('Something broke!');
 });
 
 // Listen on port
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {
-   console.log('Listening on Port ' + port);
+	console.log('Listening on Port ' + port);
 });

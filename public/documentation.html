@@ -1,382 +1,429 @@
 <!DOCTYPE html>
 <html lang="en">
-     <head>
-          <meta charset="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <title>Movie API</title>
-          <link
-               href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-               rel="stylesheet"
-               integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-               crossorigin="anonymous" />
-          <!-- bootswap theme: Quarz-->
-          <link
-               rel="stylesheet"
-               href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/lux/bootstrap.min.css" />
-          <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
-          <link rel="stylesheet" type="text/css" href="./css/styles.css" />
-     </head>
-     <body class="body-padding">
-          <!-- NAVRBAR Start -->
-          <div
-               class="navbar navbar-expand-lg fixed-top bg-primary"
-               data-bs-theme="dark">
-               <div class="container">
-                    <a href="../" class="navbar-brand"
-                         ><span class="h5 text-warning">MYFLIX</span></a
-                    >
-                    <button
-                         class="navbar-toggler"
-                         type="button"
-                         data-bs-toggle="collapse"
-                         data-bs-target="#navbarResponsive"
-                         aria-controls="navbarResponsive"
-                         aria-expanded="false"
-                         aria-label="Toggle navigation">
-                         <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarResponsive">
-                         <ul class="navbar-nav">
-                              <li class="nav-item">
-                                   <a
-                                        class="nav-link"
-                                        href="./documentation.html"
-                                        >Documentation
-                                   </a>
-                              </li>
-                         </ul>
-                    </div>
-               </div>
-          </div>
-          <!-- NAVBAR END -->
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Movie API</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+			crossorigin="anonymous" />
+		<!-- bootswap theme: Quarz-->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/lux/bootstrap.min.css" />
+		<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+		<link rel="stylesheet" type="text/css" href="./css/styles.css" />
+	</head>
+	<body class="body-padding">
+		<!-- NAVRBAR Start -->
+		<div class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark">
+			<div class="container">
+				<a href="../" class="navbar-brand"><span class="h5 text-warning">MYFLIX</span></a>
+				<button
+					class="navbar-toggler"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbarResponsive"
+					aria-controls="navbarResponsive"
+					aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarResponsive">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" href="./documentation.html">Documentation </a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- NAVBAR END -->
 
-          <!-- Content -->
-          <div class="container-fluid col-lg-10 col-xl-8 col-xxl-7">
-               <h1 class="display-3">Documentation</h1>
-               <h6>Developed by: David Schindler</h6>
-               <h6 class="mb-3">January 2024</h6>
+		<!-- Content -->
+		<div class="container-fluid col-lg-10 col-xl-8 col-xxl-7">
+			<h1 class="display-3">Documentation</h1>
+			<h6>Developed by: David Schindler</h6>
+			<h6 class="mb-3">January 2024</h6>
 
-               <p class="lead">
-                    This web application provides users with access to
-                    information about a variety of movies, directors, and
-                    genres. <br />
-                    Users will be able to sign up, update their personal
-                    information and create a list of their favorite movies.
-               </p>
+			<p class="lead">
+				This web application provides users with access to information about a variety of movies, directors, and genres. <br />
+				Users will be able to sign up, update their personal information and create a list of their favorite movies.
+			</p>
 
-               <!-- Schemas-->
-               <h3 class="mt-5">Movie Schema</h3>
-               <div class="table-responsive">
-                    <table class="table table-striped">
-                         <thead>
-                              <tr>
-                                   <th class="col-4">Field</th>
-                                   <th class="col-4">Data type</th>
-                                   <th class="col-4">Required</th>
-                              </tr>
-                         </thead>
-                         <tbody class="table-group-divider">
-                              <tr>
-                                   <td class="col-4">actors</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">awards</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">country</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">description</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">Yes</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">director</td>
-                                   <td class="col-4">Object</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">
-                                        genres<br />
-                                        <span class="fs-6 ms-3"
-                                             >name, description</span
-                                        >
-                                   </td>
-                                   <td class="col-4">
-                                        Array of Objects<br />
-                                        <span class="fs-6 ms-3"
-                                             >String, String</span
-                                        >
-                                   </td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">images</td>
-                                   <td class="col-4">Array of Strings</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">imdbID</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">imdbRating</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">imdbVotes</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">language</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">metascore</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">poster</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">rated</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">released</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">runtime</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">title</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">Yes</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">type</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">writer</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">year</td>
-                                   <td class="col-4">Date</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                         </tbody>
-                    </table>
-               </div>
+			<!-- Schemas-->
+			<h3 class="mt-5">Movie Schema</h3>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th class="col-4">Field</th>
+							<th class="col-4">Data type</th>
+							<th class="col-4">Required</th>
+						</tr>
+					</thead>
+					<tbody class="table-group-divider">
+						<tr>
+							<td class="col-4">actors</td>
+							<td class="col-4">String</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">awards</td>
+							<td class="col-4">String</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">country</td>
+							<td class="col-4">String</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">description</td>
+							<td class="col-4">String</td>
+							<td class="col-4">Yes</td>
+						</tr>
+						<tr>
+							<td class="col-4">director</td>
+							<td class="col-4">object</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">
+								genres<br />
+								<span class="fs-6 ms-3">name, description</span>
+							</td>
+							<td class="col-4">
+								Array of objects<br />
+								<span class="fs-6 ms-3">String, String</span>
+							</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">images</td>
+							<td class="col-4">Array of Strings</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">imdbID</td>
+							<td class="col-4">String</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">imdbRating</td>
+							<td class="col-4">String</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">imdbVotes</td>
+							<td class="col-4">String</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">language</td>
+							<td class="col-4">String</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">metascore</td>
+							<td class="col-4">String</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">poster</td>
+							<td class="col-4">String</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">rated</td>
+							<td class="col-4">String</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">released</td>
+							<td class="col-4">String</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">runtime</td>
+							<td class="col-4">String</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">title</td>
+							<td class="col-4">String</td>
+							<td class="col-4">Yes</td>
+						</tr>
+						<tr>
+							<td class="col-4">type</td>
+							<td class="col-4">String</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">writer</td>
+							<td class="col-4">String</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">year</td>
+							<td class="col-4">Date</td>
+							<td class="col-4">No</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 
-               <h3 class="mt-5">User Schema</h3>
-               <div class="table-responsive">
-                    <table class="table table-striped">
-                         <thead>
-                              <tr>
-                                   <th class="col-4">Field</th>
-                                   <th class="col-4">Type</th>
-                                   <th class="col-4">Required</th>
-                              </tr>
-                         </thead>
-                         <tbody class="table-group-divider">
-                              <tr>
-                                   <td class="col-4">birthday</td>
-                                   <td class="col-4">Date</td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">
-                                        email<br />
-                                        <span class="fs-6 ms-3"
-                                             >"email" is the unique id, the
-                                             username of the account</span
-                                        >
-                                   </td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">Yes</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">favoriteMovies</td>
-                                   <td class="col-4">
-                                        Array of ObjectIds<br />
-                                        <span class="fs-6 ms-3">
-                                             References to documents of movie
-                                             collection
-                                        </span>
-                                   </td>
-                                   <td class="col-4">No</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">firstname</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">Yes</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">lastname</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">Yes</td>
-                              </tr>
-                              <tr>
-                                   <td class="col-4">password</td>
-                                   <td class="col-4">String</td>
-                                   <td class="col-4">Yes</td>
-                              </tr>
-                         </tbody>
-                    </table>
-               </div>
-               <!-- -->
-               <!-- API Endpoints -->
-               <h3 class="mt-5">API endpoints</h3>
-               <div class="table-responsive">
-                    <table class="table table-striped">
-                         <thead>
-                              <tr>
-                                   <th class="col-sm-3">Operation</th>
-                                   <th class="col-sm-3">Request</th>
-                                   <th class="col-sm-3">URL</th>
-                                   <th class="col-sm-3">Response</th>
-                              </tr>
-                         </thead>
-                         <tbody class="table-group-divider">
-                              <tr>
-                                   <td>List of all movies</td>
-                                   <td>GET</td>
-                                   <td>/movies</td>
-                                   <td>
-                                        JSON array of all movies including all
-                                        details
-                                   </td>
-                              </tr>
-                              <tr>
-                                   <td>All data of a single movie by title</td>
-                                   <td>GET</td>
-                                   <td>/movies/:title</td>
-                                   <td>
-                                        JSON object containing details of the
-                                        specified movie
-                                   </td>
-                              </tr>
-                              <tr>
-                                   <td>Description of a genre by name</td>
-                                   <td>GET</td>
-                                   <td>/genres/:name</td>
-                                   <td>JSON object of specified genre</td>
-                              </tr>
-                              <tr>
-                                   <td>All data of a director by name</td>
-                                   <td>GET</td>
-                                   <td>/directors/:name</td>
-                                   <td>JSON object of directors data</td>
-                              </tr>
-                              <tr>
-                                   <td>Register a new user</td>
-                                   <td>
-                                        POST<br />
-                                        <span class="fs-6">
-                                             Request body<br />
-                                             <!-- prettier-ignore -->
-                                             <pre class="mb-1" id="json1"></pre>
-                                        </span>
-                                   </td>
-                                   <td>/users</td>
-                                   <td>JSON object of new user</td>
-                              </tr>
-                              <tr>
-                                   <td>Update data of existing user</td>
-                                   <td>
-                                        PATCH<br />
-                                        <span class="fs-6">
-                                             Request body<br />
-                                             <!-- prettier-ignore -->
-                                             <pre class="mb-1" id="json2"></pre>
-                                             <!-- format json -->
-                                             or a subset thereof.
-                                        </span>
-                                   </td>
-                                   <td>/users/:email</td>
-                                   <td>JSON object of updated user</td>
-                              </tr>
-                              <tr>
-                                   <td>
-                                        Add movie to a users favorite movies by
-                                        user email and movieId
-                                   </td>
-                                   <td>POST</td>
-                                   <td>
-                                        /users/:email/favoriteMovies/:movieId
-                                   </td>
-                                   <td>JSON object of updated user</td>
-                              </tr>
-                              <tr>
-                                   <td>
-                                        Delete favorite movie of user by user
-                                        email and movieId
-                                   </td>
-                                   <td>DELETE</td>
-                                   <td>
-                                        /users/:email/favoriteMovies/:movieId
-                                   </td>
-                                   <td>
-                                        Text confirmation that the movie was
-                                        removed from favorites
-                                   </td>
-                              </tr>
-                              <tr>
-                                   <td>Delete users the account by email</td>
-                                   <td>DELETE</td>
-                                   <td>/users/:email</td>
-                                   <td>
-                                        Text confirmation that the account was
-                                        deleted
-                                   </td>
-                              </tr>
-                         </tbody>
-                    </table>
-               </div>
-               <!-- -->
-          </div>
-          <!-- bootstrap -->
-          <script
-               src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-               integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-               crossorigin="anonymous"></script>
-          <!-- format json -->
-          <script>
-               const data = {
-                    firstname: 'John',
-                    lastname: 'Doe',
-                    password: 'password',
-                    email: 'john.doe@example.com',
-                    birthday: '1990-12-24',
-               };
-               // convert JSON data to string with tab size=2
-               const dataString = JSON.stringify(data, null, 2);
+			<h3 class="mt-5">User Schema</h3>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th class="col-4">Field</th>
+							<th class="col-4">Type</th>
+							<th class="col-4">Required</th>
+						</tr>
+					</thead>
+					<tbody class="table-group-divider">
+						<tr>
+							<td class="col-4">birthday</td>
+							<td class="col-4">Date</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">
+								email<br />
+								<span class="fs-6 ms-3">"email" is the unique id, the username of the account</span>
+							</td>
+							<td class="col-4">String</td>
+							<td class="col-4">Yes</td>
+						</tr>
+						<tr>
+							<td class="col-4">favoriteMovies</td>
+							<td class="col-4">
+								Array of objectIds<br />
+								<span class="fs-6 ms-3"> References to documents of movie collection </span>
+							</td>
+							<td class="col-4">No</td>
+						</tr>
+						<tr>
+							<td class="col-4">firstname</td>
+							<td class="col-4">String</td>
+							<td class="col-4">Yes</td>
+						</tr>
+						<tr>
+							<td class="col-4">lastname</td>
+							<td class="col-4">String</td>
+							<td class="col-4">Yes</td>
+						</tr>
+						<tr>
+							<td class="col-4">password</td>
+							<td class="col-4">String</td>
+							<td class="col-4">Yes</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- -->
+			<!-- API Endpoints -->
+			<h3 class="mt-5">API endpoints</h3>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th class="col-sm-3">Operation</th>
+							<th class="col-sm-3">Request</th>
+							<th class="col-sm-3">URL</th>
+							<th class="col-sm-3">Response</th>
+						</tr>
+					</thead>
+					<tbody class="table-group-divider">
+						<tr>
+							<td>List of all movies</td>
+							<td>GET</td>
+							<td>/movies</td>
+							<td>
+								<ul class="list-unstyled">
+									<li class="mb-2"><strong>200</strong> - An array of movie objects</li>
+									<li class="mb-2"><strong>500</strong> - Internal server error (string)</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>All data of a single movie by title</td>
+							<td>GET</td>
+							<td>/movies/:title</td>
+							<td>
+								<ul class="list-unstyled">
+									<li class="mb-2"><strong>200</strong> - The movie object matching the title (object)</li>
+									<li class="mb-2"><strong>404</strong> - Movie not found (string)</li>
+									<li class="mb-2"><strong>500</strong> - Internal server error message with details (string)</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>Description of a genre by name</td>
+							<td>GET</td>
+							<td>/genres/:name</td>
+							<td>
+								<ul class="list-unstyled">
+									<li class="mb-2"><strong>200</strong> - The movie object matching the title (object)</li>
+									<li class="mb-2"><strong>404</strong> - Movie not found (string)</li>
+									<li class="mb-2"><strong>500</strong> - Internal server error message with details (string)</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>All data of a director by name</td>
+							<td>GET</td>
+							<td>/directors/:name</td>
+							<td>
+								<ul class="list-unstyled">
+									<li class="mb-2"><strong>200</strong> - Information about the director (object)</li>
+									<li class="mb-2"><strong>404</strong> - Director or movie not found (string)</li>
+									<li class="mb-2"><strong>500</strong> - Internal server error message with details (string)</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>Register a new user</td>
+							<td>
+								POST<br />
+								<span class="fs-6">
+									Request body<br />
+									<!-- prettier-ignore -->
+									<pre class="mb-1" id="json1"></pre>
+								</span>
+							</td>
+							<td>/users</td>
+							<td>
+								<ul class="list-unstyled">
+									<li class="mb-2"><strong>201</strong> - Successful registration - returns the created user (object)</li>
+									<li class="mb-2"><strong>422</strong> - Validation errors - (object) with key "errors", containing an array of errors.</li>
+									<li class="mb-2"><strong>500</strong> - Internal server error - (object) with key "message"</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>Login user</td>
+							<td>
+								POST<br />
+								<span class="fs-6">
+									Request body<br />
+									<!-- prettier-ignore -->
+									<pre class="mb-1" id="json3"></pre>
+								</span>
+							</td>
+							<td>/login</td>
+							<td>
+								<ul class="list-unstyled">
+									<li class="mb-2"><strong>200</strong> - Successfully authenticated user and JWT token (object)</li>
+									<li class="mb-2"><strong>400</strong> - Invalid credentials or other authentication error (object)</li>
+									<li class="mb-2"><strong>500</strong> - Internal server error (object)</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>Update data of existing user</td>
+							<td>
+								PATCH<br />
+								<span class="fs-6">
+									Request body<br />
+									<!-- prettier-ignore -->
+									<pre class="mb-1" id="json2"></pre>
+									<!-- format json -->
+									or a subset thereof.
+								</span>
+							</td>
+							<td>/users/:email</td>
+							<td>
+								<ul class="list-unstyled">
+									<li class="mb-2"><strong>200</strong> - The updated user object (object)</li>
+									<li class="mb-2"><strong>400</strong> - Invalid updates or missing required fields in request body (object)</li>
+									<li class="mb-2">
+										<strong>403</strong> - Permission denied if authenticated user does not match the email in path (string)
+									</li>
+									<li class="mb-2"><strong>404</strong> - User not found (string)</li>
+									<li class="mb-2"><strong>500</strong> - Internal server error message with details (string)</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>Add movie to a users favorite movies by user email and movieId</td>
+							<td>POST</td>
+							<td>/users/:email/favoriteMovies/:movieId</td>
+							<td>
+								<ul class="list-unstyled">
+									<li class="mb-2"><strong>201</strong> - The updated user object with added favorite movie (object)</li>
+									<li class="mb-2"><strong>400</strong> - Invalid movie ID format (string)</li>
+									<li class="mb-2">
+										<strong>403</strong> - Permission denied if authenticated user does not match the email in path (string)
+									</li>
+									<li class="mb-2"><strong>404</strong> - User not found (string)</li>
+									<li class="mb-2"><strong>500</strong> - Internal server error message with details (string)</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>Delete favorite movie of user by user email and movieId</td>
+							<td>DELETE</td>
+							<td>/users/:email/favoriteMovies/:movieId</td>
+							<td>
+								<ul class="list-unstyled">
+									<li class="mb-2"><strong>200</strong> - The updated user object with removed favorite movie (object)</li>
+									<li class="mb-2">
+										<strong>403</strong> - Permission denied if authenticated user does not match the email in path (string)
+									</li>
+									<li class="mb-2"><strong>404</strong> - User not found (string)</li>
+									<li class="mb-2"><strong>500</strong> - Internal server error message with details (string)</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>Delete users the account by email</td>
+							<td>DELETE</td>
+							<td>/users/:email</td>
+							<td>
+								<ul class="list-unstyled">
+									<li class="mb-2"><strong>200</strong> - Success message indicating the user account was deleted (string)</li>
+									<li class="mb-2">
+										<strong>403</strong> - Permission denied if authenticated user does not match the email in path (string)
+									</li>
+									<li class="mb-2"><strong>404</strong> - User not found (string)</li>
+									<li class="mb-2"><strong>500</strong> - Internal server error message with details (string)</li>
+								</ul>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- -->
+		</div>
+		<!-- bootstrap -->
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+			crossorigin="anonymous"></script>
+		<!-- format json -->
+		<script>
+			const data = {
+				firstname: 'John',
+				lastname: 'Doe',
+				password: 'password',
+				email: 'john.doe@example.com',
+				birthday: '1990-12-24'
+			};
+			const loginData = {
+				email: 'john.doe@example.com',
+				password: 'password'
+			};
+			// convert JSON data to string with tab size=2
+			const dataString = JSON.stringify(data, null, 2);
+			const loginDataString = JSON.stringify(loginData, null, 2);
 
-               // display data in pre tag
-               document.getElementById('json1').innerHTML = dataString;
-               document.getElementById('json2').innerHTML = dataString;
-          </script>
-     </body>
+			// display data in pre tag
+			document.getElementById('json1').innerHTML = dataString;
+			document.getElementById('json2').innerHTML = dataString;
+			document.getElementById('json3').innerHTML = loginDataString;
+		</script>
+	</body>
 </html>

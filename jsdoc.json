@@ -1,0 +1,13 @@
+{
+	"source": {
+		"include": ["src"],
+		"includePattern": ".js$",
+		"excludePattern": "(node_modules/|docs)"
+	},
+	"opts": {
+		"destination": "./out",
+		"recurse": true,
+		"template": "default"
+	},
+	"plugins": ["jsdoc-express-with-swagger"]
+}
